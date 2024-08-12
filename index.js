@@ -2,6 +2,7 @@ const express = require('express');
 const app= express();
 const path=require('path');
 const fs= require('fs');
+const { log } = require('console');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -26,6 +27,17 @@ app.get("/file/:filename",function(req,res){``
     })
 
 })
+app.get("/edit/:filename",function(req,res){
+   res.render("edit",{filename:req.params.filename});
+    })
+app.post("/edit",function(req,res){
+    console.log(req.body.newname);
+    
+fs.rename(`./files/${req.body.oldname}`,`./files/${req.body.newname}`,(err)=>{
+    res.redirect('/');
+})
+    })
+
 
 // app.get("/public/:paji",function(req,res){
 //     res.send(`welcome ${req.params.paji}`);
